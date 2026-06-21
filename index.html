@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlosSar - Catálogo de Maquillaje</title>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #d4af37; /* Toque dorado elegante */
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 100px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            color: #b3b3b3;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 150px;
+            background-color: #eaeaea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.8rem;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-top: auto;
+            margin-bottom: 10px;
+        }
+
+        .btn-add {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        /* Barra fija inferior del Carrito */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 800px;
+            margin: 0 auto;
+            z-index: 100;
+        }
+
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .address-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #2a2a2a;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .address-input::placeholder {
+            color: #888;
+        }
+
+        .btn-order {
+            background-color: #25d366; /* Verde WhatsApp */
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>GlosSar</h1>
+        <p>ENVÍOS A DOMICILIO SIN COSTO</p>
+    </header>
+
+    <div class="container">
+        <!-- Contenedor de Productos -->
+        <div class="products-grid" id="products-container"></div>
+    </div>
+
+    <!-- Barra de Pedido / Carrito -->
+    <div class="cart-bar">
+        <div class="cart-summary">
+            <span id="cart-count">Items: 0</span>
+            <span id="cart-total">Total: $0</span>
+        </div>
+        <input type="text" id="delivery-address" class="address-input" placeholder="Escribí tu dirección para el envío...">
+        <button class="btn-order" onclick="sendOrder()">Enviar Pedido por WhatsApp</button>
+    </div>
+
+    <script>
+        // --- AQUÍ PODRÁS ACTUALIZAR TUS PRECIOS Y STOCK MÁS ADELANTE ---
+        const products = [
+            { id: 1, name: "Brillo Labial Gloss", price: 2500, img: "https://via.placeholder.com/150" },
+            { id: 2, name: "Base Líquida Matte", price: 4500, img: "https://via.placeholder.com/150" },
+            { id: 3, name: "Máscara de Pestañas", price: 3200, img: "https://via.placeholder.com/150" },
+            { id: 4, name: "Paleta de Sombras", price: 6000, img: "https://via.placeholder.com/150" },
+            { id: 5, name: "Rubor Compacto", price: 2800, img: "https://via.placeholder.com/150" }
+        ];
+
+        // TU NÚMERO DE TELÉFONO (Ejemplo con código de país de Argentina: 54 + código de área sin el 15 + número)
+        // Cambialo por tu número real más adelante
+        const phoneNumber = "5491123456789"; 
+
+        let cart = {};
+
+        // Renderizar productos en la pantalla
+        const container = document.getElementById('products-container');
+        products.forEach(p => {
+            container.innerHTML += `
+                <div class="product-card">
+                    <img src="${p.img}" class="product-img" alt="${p.name}">
+                    <div class="product-info">
+                        <div class="product-title">${p.name}</div>
+                        <div class="product-price">$${p.price}</div>
+                        <button class="btn-add" onclick="addToCart(${p.id})">Agregar (+<span id="qty-${p.id}">0</span>)</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Lógica del Carrito
+        function addToCart(id) {
+            if (cart[id]) {
+                cart[id]++;
+            } else {
+                cart[id] = 1;
+            }
+            document.getElementById(`qty-${id}`).innerText = cart[id];
+            updateCartSummary();
+        }
+
+        function updateCartSummary() {
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            for (const id in cart) {
+                const product = products.find(p => p.id == id);
+                totalItems += cart[id];
+                totalPrice += product.price * cart[id];
+            }
+
+            document.getElementById('cart-count').innerText = `Items: ${totalItems}`;
+            document.getElementById('cart-total').innerText = `Total: $${totalPrice}`;
+        }
+
+        // Enviar por WhatsApp
+        function sendOrder() {
+            const address = document.getElementById('delivery-address').value.trim();
+            
+            if (Object.keys(cart).length === 0) {
+                alert("Por favor, agrega al menos un producto al carrito.");
+                return;
+            }
+            if (!address) {
+                alert("Por favor, ingresa tu dirección para realizar el envío sin costo.");
+                return;
+            }
+
+            let message = "¡Hola *GlosSar*! 🌟 Quiero realizar el siguiente pedido:\n\n";
+            let totalPrice = 0;
+
+            for (const id in cart) {
+                const product = products.find(p => p.id == id);
+                const subtotal = product.price * cart[id];
+                totalPrice += subtotal;
+                message += `▪️ *${cart[id]}x* ${product.name} _($${product.price} c/u)_\n`;
+            }
+
+            message += `\n💰 *Total del Pedido:* $${totalPrice}`;
+            message += `\n📍 *Dirección de envío:* ${address}`;
+            message += `\n\n_Envío a domicilio sin costo._`;
+
+            // Codificar el texto para que sea compatible con un enlace web
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+            // Abrir WhatsApp
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
