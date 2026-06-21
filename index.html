@@ -6,9 +6,9 @@
     <title>GlosSar - Catálogo de Maquillaje</title>
     <style>
         :root {
-            --primary-color: #1a1a1a;
-            --accent-color: #d4af37; /* Toque dorado elegante */
-            --bg-color: #f9f9f9;
+            --primary-color: #f21b21; /* El rojo/fucsia vibrante de las letras de tu logo */
+            --accent-color: #ffb3d1;  /* El rosa pastel de fondo de tu logo */
+            --bg-color: #fff0f5;      /* Un rosa ultra claro de fondo para la app */
             --card-bg: #ffffff;
             --text-color: #333333;
         }
@@ -23,29 +23,45 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 100px;
+            padding-bottom: 110px;
         }
 
         header {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--accent-color); /* Fondo rosa pastel como el logo */
             text-align: center;
-            padding: 25px 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px 15px;
+            box-shadow: 0 4px 10px rgba(242, 27, 33, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Espacio para que pongas tu logo */
+        .brand-logo {
+            max-width: 180px;
+            height: auto;
+            border-radius: 10px;
         }
 
         header h1 {
-            font-size: 2.2rem;
-            letter-spacing: 4px;
-            font-weight: 300;
+            font-size: 2.4rem;
+            color: var(--primary-color);
+            letter-spacing: 2px;
+            font-weight: 700;
             text-transform: uppercase;
+            display: none; /* Se oculta si usás la imagen del logo abajo */
         }
 
         header p {
-            font-size: 0.9rem;
-            color: #b3b3b3;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            letter-spacing: 2px;
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 4px 12px;
+            border-radius: 20px;
             margin-top: 5px;
-            letter-spacing: 1px;
         }
 
         .container {
@@ -62,26 +78,27 @@
 
         .product-card {
             background: var(--card-bg);
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(242, 27, 33, 0.05);
             display: flex;
             flex-direction: column;
             transition: transform 0.2s;
+            border: 1px solid rgba(242, 27, 33, 0.08);
         }
 
         .product-card:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
 
         .product-img {
             width: 100%;
-            height: 150px;
-            background-color: #eaeaea;
+            height: 160px;
+            background-color: #fce4ec;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #999;
+            color: var(--primary-color);
             font-size: 0.8rem;
             object-fit: cover;
         }
@@ -97,10 +114,11 @@
             font-size: 0.95rem;
             font-weight: 600;
             margin-bottom: 5px;
+            color: #444;
         }
 
         .product-price {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: var(--primary-color);
             font-weight: 700;
             margin-top: auto;
@@ -111,33 +129,33 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 8px;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.85rem;
             width: 100%;
-            transition: background 0.2s;
+            box-shadow: 0 2px 6px rgba(242, 27, 33, 0.2);
         }
 
-        /* Barra fija inferior del Carrito */
+        /* Barra fija inferior del Carrito con estilo GlosSar */
         .cart-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: var(--primary-color);
-            color: white;
+            background-color: white;
             padding: 15px;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.15);
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            box-shadow: 0 -5px 20px rgba(242, 27, 33, 0.15);
             display: flex;
             flex-direction: column;
             gap: 10px;
             max-width: 800px;
             margin: 0 auto;
             z-index: 100;
+            border-top: 2px solid var(--accent-color);
         }
 
         .cart-summary {
@@ -145,63 +163,70 @@
             justify-content: space-between;
             align-items: center;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--primary-color);
+            padding: 0 5px;
         }
 
         .address-input {
             width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background-color: #2a2a2a;
-            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ffccd5;
+            background-color: #fffafb;
+            color: #333;
             font-size: 0.9rem;
+            outline: none;
+        }
+
+        .address-input:focus {
+            border-color: var(--primary-color);
         }
 
         .address-input::placeholder {
-            color: #888;
+            color: #bfa3a7;
         }
 
         .btn-order {
-            background-color: #25d366; /* Verde WhatsApp */
+            background-color: #25d366; /* Verde WhatsApp oficial */
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 10px;
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
             display: block;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 8px rgba(37, 211, 102, 0.3);
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>GlosSar</h1>
-        <p>ENVÍOS A DOMICILIO SIN COSTO</p>
+        <!-- Reemplazá 'glossar nuevo.jpeg' por la URL real de tu imagen en tu repositorio más adelante -->
+        <img src="glossar nuevo.jpeg" class="brand-logo" alt="GlosSar Maquillajes" onerror="this.style.display='none'; document.getElementById('alt-title').style.display='block';">
+        <h1 id="alt-title">GlosSar</h1>
+        <p>✨ ENVÍOS A DOMICILIO SIN COSTO ✨</p>
     </header>
 
     <div class="container">
-        <!-- Contenedor de Productos -->
         <div class="products-grid" id="products-container"></div>
     </div>
 
-    <!-- Barra de Pedido / Carrito -->
     <div class="cart-bar">
         <div class="cart-summary">
-            <span id="cart-count">Items: 0</span>
+            <span id="cart-count">Productos: 0</span>
             <span id="cart-total">Total: $0</span>
         </div>
-        <input type="text" id="delivery-address" class="address-input" placeholder="Escribí tu dirección para el envío...">
+        <input type="text" id="delivery-address" class="address-input" placeholder="📍 Escribí tu dirección para el envío...">
         <button class="btn-order" onclick="sendOrder()">Enviar Pedido por WhatsApp</button>
     </div>
 
     <script>
-        // --- AQUÍ PODRÁS ACTUALIZAR TUS PRECIOS Y STOCK MÁS ADELANTE ---
+        // LISTADO DE PRODUCTOS (Modificá los precios y nombres aquí)
         const products = [
             { id: 1, name: "Brillo Labial Gloss", price: 2500, img: "https://via.placeholder.com/150" },
             { id: 2, name: "Base Líquida Matte", price: 4500, img: "https://via.placeholder.com/150" },
@@ -210,13 +235,11 @@
             { id: 5, name: "Rubor Compacto", price: 2800, img: "https://via.placeholder.com/150" }
         ];
 
-        // TU NÚMERO DE TELÉFONO (Ejemplo con código de país de Argentina: 54 + código de área sin el 15 + número)
-        // Cambialo por tu número real más adelante
-        const phoneNumber = "5491123456789"; 
+        // TU NÚMERO DE TELÉFONO (Con código de país, ejemplo Argentina: 549...)
+        const phoneNumber = "5492975297116"; 
 
         let cart = {};
 
-        // Renderizar productos en la pantalla
         const container = document.getElementById('products-container');
         products.forEach(p => {
             container.innerHTML += `
@@ -225,13 +248,12 @@
                     <div class="product-info">
                         <div class="product-title">${p.name}</div>
                         <div class="product-price">$${p.price}</div>
-                        <button class="btn-add" onclick="addToCart(${p.id})">Agregar (+<span id="qty-${p.id}">0</span>)</button>
+                        <button class="btn-add" onclick="addToCart(${p.id})">Agregar (<span id="qty-${p.id}">0</span>)</button>
                     </div>
                 </div>
             `;
         });
 
-        // Lógica del Carrito
         function addToCart(id) {
             if (cart[id]) {
                 cart[id]++;
@@ -252,11 +274,10 @@
                 totalPrice += product.price * cart[id];
             }
 
-            document.getElementById('cart-count').innerText = `Items: ${totalItems}`;
+            document.getElementById('cart-count').innerText = `Productos: ${totalItems}`;
             document.getElementById('cart-total').innerText = `Total: $${totalPrice}`;
         }
 
-        // Enviar por WhatsApp
         function sendOrder() {
             const address = document.getElementById('delivery-address').value.trim();
             
@@ -269,7 +290,7 @@
                 return;
             }
 
-            let message = "¡Hola *GlosSar*! 🌟 Quiero realizar el siguiente pedido:\n\n";
+            let message = "¡Hola *GlosSar*! 💋✨ Quiero realizar el siguiente pedido:\n\n";
             let totalPrice = 0;
 
             for (const id in cart) {
@@ -283,11 +304,9 @@
             message += `\n📍 *Dirección de envío:* ${address}`;
             message += `\n\n_Envío a domicilio sin costo._`;
 
-            // Codificar el texto para que sea compatible con un enlace web
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
-            // Abrir WhatsApp
             window.open(whatsappUrl, '_blank');
         }
     </script>
